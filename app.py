@@ -46,12 +46,10 @@ ist = pytz.timezone('Asia/Kolkata')
 current_hour = datetime.now(ist).hour
 st.sidebar.write(f"🕒 IST Time: {current_hour}:00")
 
-# =========================================================
 # ===================== TASK 1 =============================
-# =========================================================
 st.header("Task 1")
 
-if 14 <= current_hour < 17:
+if 15 <= current_hour < 17:
     t1 = df[(df['Rating'] >= 4.0) &
             (df['Size'] >= 10) &
             (df['Last Updated'].dt.month == 1)]
@@ -69,12 +67,12 @@ if 14 <= current_hour < 17:
     st.plotly_chart(fig, use_container_width=True)
 else:
     st.warning("Available 3PM–5PM")
-# =========================================================
+
 # ===================== TASK 2 =============================
-# =========================================================
+
 st.header("Task 2")
 
-if 14 <= current_hour < 15:
+if 13 <= current_hour < 14:
 
     t2 = df[
         (df['Installs'] >= 10000) &
@@ -94,18 +92,14 @@ if 14 <= current_hour < 15:
         'Revenue': 'mean'
     }).reset_index()
 
-    # 🔥 REAL DUAL AXIS
     fig = go.Figure()
 
-    # Left axis → Installs (Bar)
     fig.add_trace(go.Bar(
         x=g['Type'],
         y=g['Installs'],
         name="Avg Installs",
         yaxis='y1'
     ))
-
-    # Right axis → Revenue (Line)
     fig.add_trace(go.Scatter(
         x=g['Type'],
         y=g['Revenue'],
@@ -128,12 +122,12 @@ if 14 <= current_hour < 15:
 
 else:
     st.warning("⏳ Available 1PM–2PM IST")
-# =========================================================
+
 # ===================== TASK 3 =============================
-# =========================================================
+
 st.header("Task 3")
 
-if 14 <= current_hour < 20:
+if 18 <= current_hour < 20:
 
     t3 = df[~df['Category'].str.startswith(('A','C','G','S'), na=False)]
 
@@ -146,7 +140,6 @@ if 14 <= current_hour < 20:
 
     g = t3.groupby('Category')['Installs'].sum().reset_index()
 
-    # 🔥 Assign dummy countries (required for choropleth)
     countries = ["India", "United States", "Brazil", "Germany", "Japan"]
     g['Country'] = countries[:len(g)]
 
@@ -163,12 +156,12 @@ if 14 <= current_hour < 20:
 
 else:
     st.warning("⏳ Available 6PM–8PM IST")
-# =========================================================
+
 # ===================== TASK 4 =============================
-# =========================================================
+
 st.header("Task 4")
 
-if 14 <= current_hour < 18:
+if 16 <= current_hour < 18:
     t4 = df[(df['Rating'] >= 4.2) &
             (df['Reviews'] > 1000) &
             (df['Size'].between(20,80)) &
@@ -181,7 +174,6 @@ if 14 <= current_hour < 18:
         'Photography':'写真'
     })
 
-    # ✅ FIX HERE
     t4['Month'] = t4['Last Updated'].dt.to_period('M').astype(str)
 
     g = t4.groupby(['Month','Category'])['Installs'].sum().reset_index()
@@ -192,12 +184,12 @@ if 14 <= current_hour < 18:
 else:
     st.warning("Available 4PM–6PM")
 
-# =========================================================
+
 # ===================== TASK 5 =============================
-# =========================================================
+
 st.header("Task 5")
 
-if 14 <= current_hour < 15:
+if 17 <= current_hour < 19:
     cats = ['GAME','BEAUTY','BUSINESS','COMICS','COMMUNICATION',
             'DATING','ENTERTAINMENT','SOCIAL','EVENTS']
 
@@ -220,12 +212,12 @@ if 14 <= current_hour < 15:
 else:
     st.warning("Available 5PM–7PM")
 
-# =========================================================
+
 # ===================== TASK 6 =============================
-# =========================================================
+
 st.header("Task 6")
 
-if 14 <= current_hour < 21:
+if 18 <= current_hour < 21:
     t6 = df[(df['Reviews'] > 500) &
             (~df['App'].str.contains('S', case=False, na=False)) &
             (~df['App'].str.startswith(('x','y','z'), na=False)) &
@@ -237,7 +229,7 @@ if 14 <= current_hour < 21:
         'DATING':'Dating (German)'
     })
 
-    # ✅ FIX HERE
+
     t6['Month'] = t6['Last Updated'].dt.to_period('M').astype(str)
 
     g = t6.groupby(['Month','Category'])['Installs'].sum().reset_index()
